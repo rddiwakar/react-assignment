@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import {BsArrowDownUp } from 'react-icons/bs'
+import {SORTS} from '../../Utils/index'
 
 const TableData = styled.table`
 border:1px solid black;
@@ -12,6 +13,7 @@ thead{
         th{
             padding:1rem;
             text-align:left;
+            cursor:pointer;
         }
     }
 }
@@ -30,20 +32,37 @@ tbody{
 `
 
 const Table = ({ data, handleUserData }) => {
+    const [sort, setSort] = React.useState(
+        {
+            sortKey: 'NONE',
+            isReverse: false,
+        }
+    );
+    const handleSort = (sortKey) => {
+        const isReverse = sort.sortKey === sortKey && !sort.isReverse;
+        
+        setSort({ sortKey, isReverse });
+    };
+
+    const sortFunction = SORTS[sort.sortKey];
+    const sortedList = sort.isReverse
+        ? sortFunction(data).reverse()
+        : sortFunction(data);
     return (
         <TableData >
             <thead>
                 <tr>
-                    <th>First Name  <BsArrowDownUp /></th>
-                    <th>Last Name  <BsArrowDownUp/></th>
-                    <th>Age  <BsArrowDownUp/></th>
-                    <th>Email  <BsArrowDownUp/></th>
-                    <th>Website  <BsArrowDownUp/></th>
+                    <th onClick={() => handleSort('FIRST_NAME')}>First Name  <BsArrowDownUp /></th>
+                    <th onClick={() => handleSort('LAST_NAME')}>Last Name  <BsArrowDownUp/></th>
+                    <th onClick={() => handleSort('AGE')}>Age  <BsArrowDownUp/></th>
+                    <th onClick={() => handleSort('EMAIL')}>Email  <BsArrowDownUp/></th>
+                    <th onClick={() => handleSort('WEB')}>Website  <BsArrowDownUp/></th>
                     
                 </tr>
             </thead>
             <tbody>
-                {data && data.map((itm) => {
+                {sortedList && sortedList.map((itm) => {
+                    
                     return (
                         <tr key={itm.id}>
                             <td>
