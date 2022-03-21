@@ -23,8 +23,8 @@ const SORTS = {
     EMAIL: (list) => sortData(list, 'email'),
     WEB: (list) => sortData(list,'web')
 };
-const pagination =(data)=>{ 
-    let size = 10; 
+const pagination =(data,s)=>{ 
+    let size = s; 
     let arrayOfArrays = [];
     for (var i=0; i<data.length; i+=size) {
          arrayOfArrays.push(data.slice(i,i+size));

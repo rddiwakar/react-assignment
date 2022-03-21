@@ -4,13 +4,13 @@ import styled from 'styled-components';
 import { BsArrowDownUp } from 'react-icons/bs'
 import { SORTS, pagination } from '../../Utils/index';
 import {
-    MdKeyboardArrowLeft as BackBtnICon, 
+    MdKeyboardArrowLeft as BackBtnICon,
     MdKeyboardArrowRight as NextBtnIcon
-} 
-from 'react-icons/md'
+}
+    from 'react-icons/md'
 
 const TableData = styled.table`
-border:1px solid black;
+border:1px solid rgb(230, 230, 230);
 thead{    
     font-weight: 700;
     background: rgb(230, 230, 230);
@@ -36,6 +36,7 @@ tbody{
 }
 `
 const PaginationBtnStyle = styled.div`
+margin:2rem;
 & .btn{
     border: 1px solid rgb(230, 230, 230);
     background: white;
@@ -54,7 +55,7 @@ const Table = ({ data, handleUserData }) => {
             isReverse: false,
         }
     );
-    const [pageNum,setPageNum]=React.useState(0)
+    const [pageNum, setPageNum] = React.useState(0)
     const handleSort = (sortKey) => {
         const isReverse = sort.sortKey === sortKey && !sort.isReverse;
 
@@ -66,70 +67,73 @@ const Table = ({ data, handleUserData }) => {
         ? sortFunction(data).reverse()
         : sortFunction(data);
 
-    const paginatedList = pagination(sortedList);  
+    const paginatedList = pagination(sortedList, 15);
     return (
         <>
-            <TableData >
-                <thead>
-                    <tr>
-                        <th onClick={() => handleSort('FIRST_NAME')}>First Name  <BsArrowDownUp /></th>
-                        <th onClick={() => handleSort('LAST_NAME')}>Last Name  <BsArrowDownUp /></th>
-                        <th onClick={() => handleSort('AGE')}>Age  <BsArrowDownUp /></th>
-                        <th onClick={() => handleSort('EMAIL')}>Email  <BsArrowDownUp /></th>
-                        <th onClick={() => handleSort('WEB')}>Website  <BsArrowDownUp /></th>
+            <div style={{ overflow: 'auto' }}>
+                <TableData >
+                    <thead>
+                        <tr>
+                            <th onClick={() => handleSort('FIRST_NAME')}>First Name  <BsArrowDownUp /></th>
+                            <th onClick={() => handleSort('LAST_NAME')}>Last Name  <BsArrowDownUp /></th>
+                            <th onClick={() => handleSort('AGE')}>Age  <BsArrowDownUp /></th>
+                            <th onClick={() => handleSort('EMAIL')}>Email  <BsArrowDownUp /></th>
+                            <th onClick={() => handleSort('WEB')}>Website  <BsArrowDownUp /></th>
 
-                    </tr>
-                </thead>
-               
-                <tbody>
-                    {paginatedList[pageNum] && paginatedList[pageNum].map((itm) => {
+                        </tr>
+                    </thead>
 
-                        return (
-                            <tr key={itm.id}>
-                                <td>
-                                    <Link to={`/users/${itm.id}`} className='username' >
-                                        <div onClick={() => handleUserData(itm)}>
-                                            {itm.first_name}
-                                        </div>
-                                    </Link>
-                                </td>
-                                <td>{itm.last_name}</td>
-                                <td>{itm.age}</td>
-                                <td>{itm.email}</td>
-                                <td>
-                                    <a href={itm.web} target='_blank' >{itm.web}</a>
-                                </td>
+                    <tbody>
+                        {paginatedList[pageNum] && paginatedList[pageNum].map((itm) => {
 
-                            </tr>
-                        )
-                    })}
-                </tbody>
-            </TableData >
+                            return (
+                                <tr key={itm.id}>
+                                    <td>
+                                        <Link to={`/users/${itm.id}`} className='username' >
+                                            <div onClick={() => handleUserData(itm)}>
+                                                {itm.first_name}
+                                            </div>
+                                        </Link>
+                                    </td>
+                                    <td>{itm.last_name}</td>
+                                    <td>{itm.age}</td>
+                                    <td>{itm.email}</td>
+                                    <td>
+                                        <a href={itm.web} target='_blank' >{itm.web}</a>
+                                    </td>
+
+                                </tr>
+                            )
+                        })}
+                    </tbody>
+                </TableData >
+            </div>
+
             <PaginationBtnStyle>
-                <button 
-                    onClick={()=> setPageNum(pageNum === 0? 0 : pageNum-1)}
-                    className = 'btn'
+                <button
+                    onClick={() => setPageNum(pageNum === 0 ? 0 : pageNum - 1)}
+                    className='btn'
                 >
-                    <BackBtnICon size='1rem' />
+                    <BackBtnICon size='14px' />
                 </button>
-                {paginatedList.map((itm,idx)=>{
+                {paginatedList.map((itm, idx) => {
                     return (
-                        <button 
-                            key={idx + 1} 
-                            onClick={()=>setPageNum(idx)}
-                            className={`btn ${pageNum === idx ? 'pageNavBtn': ''}`}
+                        <button
+                            key={idx + 1}
+                            onClick={() => setPageNum(idx)}
+                            className={`btn ${pageNum === idx ? 'pageNavBtn' : ''}`}
                         >
                             {idx + 1}
                         </button>
                     )
                 })}
-                <button 
+                <button
                     onClick={
-                        ()=> setPageNum(pageNum !== (paginatedList.length -1) ? (pageNum+1) :(paginatedList.length-1 ))
+                        () => setPageNum(pageNum !== (paginatedList.length - 1) ? (pageNum + 1) : (paginatedList.length - 1))
                     }
                     className='btn'
                 >
-                    <NextBtnIcon size='1rem' />
+                    <NextBtnIcon size='14px' />
                 </button>
             </PaginationBtnStyle>
         </>
