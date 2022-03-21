@@ -8,9 +8,10 @@ border:1px solid rgb(230, 230, 230);
 }
 `
 const Title = ({ titleName, titleValue }) => {
+    const value = titleName === 'Web' ? <a href={titleValue} target="_blank" style={{color:"black"}} >{titleValue}</a>: titleValue
     return (
         <TitleStyle>
-            <span>{titleName}:</span> <span className='titlevalue'>{titleValue}</span>
+            <span>{titleName}:</span> <span className='titlevalue'>{value}</span>
         </TitleStyle>
     )
 }
