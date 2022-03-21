@@ -23,4 +23,12 @@ const SORTS = {
     EMAIL: (list) => sortData(list, 'email'),
     WEB: (list) => sortData(list,'web')
 };
-export {SORTS}
+const pagination =(data)=>{ 
+    let size = 10; 
+    let arrayOfArrays = [];
+    for (var i=0; i<data.length; i+=size) {
+         arrayOfArrays.push(data.slice(i,i+size));
+    }
+    return arrayOfArrays
+}
+export {SORTS, pagination}
